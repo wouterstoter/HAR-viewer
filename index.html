@@ -5,7 +5,7 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
-          navigator.serviceWorker.register('sw.js').then(function(registration) {
+          navigator.serviceWorker.register('sw.js',{scope: '/'}).then(function(registration) {
             // Registration was successful
             console.log('ServiceWorker registration successful with scope: ', registration.scope);
           }, function(err) {
@@ -38,7 +38,9 @@
           console.log(entry);
           var blob = new Blob([entry.response.content.text], {type: entry.response.content.mimeType});
           document.querySelector("iframe").src = URL.createObjectURL(blob);*/
-          document.querySelector("iframe").src = document.location.href + page.title;
+          var url = new URL(page.title);
+          url.origin = document.location.origin;
+          document.querySelector("iframe").src = url.href;
         };
         // Read in the image file as a data URL.
         reader.readAsText(file);
