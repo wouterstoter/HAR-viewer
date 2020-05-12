@@ -24,11 +24,11 @@ self.onfetch = function(event) {console.log(event.request);
             }
             var response;
             if (entry.response.content.encoding == "base64") {
-                entry.response.content.text = atob(entry.response.content.text)
-                var n = entry.response.content.text.length;
+                var encoded = atob(entry.response.content.text)
+                var n = encoded.length;
                 response = new Uint8Array(n);
                 while(n--){
-                    response[n] = entry.response.content.text.charCodeAt(n);
+                    response[n] = encoded.charCodeAt(n);
                 }
             } else {
                 response = entry.response.content.text
