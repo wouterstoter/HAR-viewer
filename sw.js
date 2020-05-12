@@ -24,7 +24,7 @@ self.onfetch = function(event) {console.log(event.request);
             }
             var response;
             if (entry.response.content.encoding == "base64") {
-                response = new Uint8Array(n);
+                response = new Uint8Array(entry.response.content.text.length);
                 for (n = 0; n < entry.response.content.text.length; ++n) {
                     response[n] = entry.response.content.text.charCodeAt(n);
                 }
