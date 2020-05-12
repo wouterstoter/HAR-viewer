@@ -24,8 +24,10 @@ self.onfetch = function(event) {console.log(event.request);
             }
             var response;
             if (entry.response.content.encoding == "base64") {
-                response = new Uint8Array(entry.response.content.text.length);
-                for (n = 0; n < entry.response.content.text.length; ++n) {
+                entry.response.content.text = atob(entry.response.content.text)
+                var n = entry.response.content.text.length;
+                response = new Uint8Array(n);
+                while(n--){
                     response[n] = entry.response.content.text.charCodeAt(n);
                 }
             } else {
@@ -42,6 +44,7 @@ self.onfetch = function(event) {console.log(event.request);
             throw "Error";
         }
     } catch(err) {
+        console.error(err);
         event.respondWith(fetch(event.request).then(function (response) {
             console.log(response);
             return response;
