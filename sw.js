@@ -18,9 +18,15 @@ self.onfetch = function(event) {console.log(event.request);
             }
             if (!entry) throw "Error";
             
+            var headers = new Headers();
+            for (h = 0; h < entry.response.headers.length; ++h) {
+                headers.append(entry.response.headers[h].name,entry.response.headers[h].value)
+            }
             event.respondWith(
                 new Response(entry.response.content.text, {
-                    headers: entry.response.headers
+                    status: entry.response.status,
+                    statusText: entry.response.statusText,
+                    headers: headers
                 })
             );
         } else {
