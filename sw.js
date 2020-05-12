@@ -14,7 +14,7 @@ self.onfetch = function(event) {console.log(event.request);
         if (dont.indexOf(event.request.url) == -1 && har) {
             var entry;
             for (e = 0; e < har.entries.length; ++e) {
-                if (event.request.url.endsWith(entry.url) && entry.response && entry.response.content && entry.response.content.text) {entry = har.entries[e];break;}
+                if (event.request.url.endsWith(har.entries[e].url) && har.entries[e].response && har.entries[e].response.content && har.entries[e].response.content.text) {entry = har.entries[e];break;}
             }
             if (!entry) throw "Error";
             
