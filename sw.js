@@ -1,3 +1,5 @@
+var dont = ["https://wouterstoter.github.io/HAR-viewer/","https://wouterstoter.github.io/HAR-viewer/sw.js"]
+
 var har;
 self.addEventListener('message', e => {
     har = e.data;
