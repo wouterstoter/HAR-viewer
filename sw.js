@@ -1,3 +1,8 @@
+var har;
+self.addEventListener('message', e => {
+    har = e.data;
+});
+
 self.addEventListener('install', function(event) {
   
 });
