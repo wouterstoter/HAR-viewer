@@ -25,16 +25,18 @@
         var reader = new FileReader();
         reader.onload = function(e) {
           var content = JSON.parse(reader.result).log;
+          navigator.serviceWorker.controller.postMessage(content);
           var page = content.pages.sort((a,b)=>a.startedDateTime < b.startedDateTime ? 1 : -1)[0];
           console.log(page)
-          var entry;
+          /*var entry;
           for (e = 0; e < content.entries.length; ++e) {
             entry = content.entries[e];
             if (entry.pageref == page.id && entry["_resourceType"] == "document" && entry.response && entry.response.content && entry.response.content.text) {break;}
           }
           console.log(entry);
           var blob = new Blob([entry.response.content.text], {type: entry.response.content.mimeType});
-          document.querySelector("iframe").src = URL.createObjectURL(blob);
+          document.querySelector("iframe").src = URL.createObjectURL(blob);*/
+          document.querySelector("iframe").src = document.location.href + page.title;
         };
         // Read in the image file as a data URL.
         reader.readAsText(file);
