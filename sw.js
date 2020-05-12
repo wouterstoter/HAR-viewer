@@ -10,17 +10,27 @@ self.addEventListener('install', function(event) {
 });
 
 self.onfetch = function(event) {console.log(event.request);
-    if (dont.indexOf(event.request.url) != -1) {
+    try {
+        if (dont.indexOf(event.request.url) == -1 && har) {
+            var entry;
+            for (e = 0; e < har.entries.length; ++e) {
+                if (event.request.url.endsWith(entry.url) && entry.response && entry.response.content && entry.response.content.text) {entry = har.entries[e];break;}
+            }
+            if (!entry) throw "Error";
+            
+            event.respondWith(
+                new Response(entry.response.content.text, {
+                    headers: entry.response.headers
+                })
+            );
+        } else {
+            throw "Error";
+        }
+    } catch(err) {
         event.respondWith(fetch(event.request).then(function (response) {
             console.log(response);
             return response;
         }))
-    } else {
-        event.respondWith(
-            new Response('<p>This is a response that comes from your service worker!</p>', {
-                headers: {'Content-Type': 'text/html'}
-            })
-        );
     }
   /*event.respondWith(fetch(event.request).then(function (response) {
     console.log(response);
