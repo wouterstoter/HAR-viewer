@@ -1,8 +1,10 @@
 var dont = ["https://wouterstoter.github.io/HAR-viewer/","https://wouterstoter.github.io/HAR-viewer/sw.js"]
 
 var har;
+var base;
 self.addEventListener('message', e => {
     har = e.data;
+    base = new URL(har.pages.sort((a,b)=>a.startedDateTime < b.startedDateTime ? 1 : -1)[0].title);
 });
 
 self.addEventListener('install', function(event) {
@@ -14,7 +16,7 @@ self.onfetch = function(event) {console.log(event.request);
         if (dont.indexOf(event.request.url) == -1 && har) {
             var entry;
             for (e = 0; e < har.entries.length; ++e) {
-                if (event.request.url.endsWith(har.entries[e].request.url) && har.entries[e].response && har.entries[e].response.content && har.entries[e].response.content.text) {entry = har.entries[e];break;}
+                if ((event.request.url == har.entries[e].request.url || event.request.url.replace(base.origin,location.origin) == har.entries[e].request.url) && har.entries[e].response && har.entries[e].response.content && har.entries[e].response.content.text) {entry = har.entries[e];break;}
             }
             if (!entry) throw "Error";
             
