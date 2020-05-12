@@ -39,7 +39,8 @@
           var blob = new Blob([entry.response.content.text], {type: entry.response.content.mimeType});
           document.querySelector("iframe").src = URL.createObjectURL(blob);*/
           var url = new URL(page.title);
-          url.origin = document.location.origin;
+          url.host = document.location.host;
+          url.protocol = document.location.protocol;
           document.querySelector("iframe").src = url.href;
         };
         // Read in the image file as a data URL.
