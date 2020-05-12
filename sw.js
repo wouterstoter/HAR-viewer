@@ -22,8 +22,17 @@ self.onfetch = function(event) {console.log(event.request);
             for (h = 0; h < entry.response.headers.length; ++h) {
                 headers.append(entry.response.headers[h].name,entry.response.headers[h].value)
             }
+            var response;
+            if (entry.response.content.encoding == "base64") {
+                response = new Uint8Array(n);
+                for (n = 0; n < entry.response.content.text.length; ++n) {
+                    response[n] = entry.response.content.text.charCodeAt(n);
+                }
+            } else {
+                response = entry.response.content.text
+            }
             event.respondWith(
-                new Response(entry.response.content.text, {
+                new Response(response, {
                     status: entry.response.status,
                     statusText: entry.response.statusText,
                     headers: headers
