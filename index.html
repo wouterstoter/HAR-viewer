@@ -45,6 +45,13 @@
       window.onbeforeunload = function() {
         navigator.serviceWorker.controller.postMessage("close");
       }
+      
+      window.onmessage = (event) => {
+        if (!event.data.log) return
+        navigator.serviceWorker.ready.then(registration => {
+          navigator.serviceWorker.controller.postMessage(event.data);
+        });
+      }
     </script>
   </body>
 </html>
