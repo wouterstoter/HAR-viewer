@@ -48,10 +48,10 @@
       
       window.onmessage = (event) => {
         try { 
-          data = typeof event.data === "string" ? JSON.parse(data) : data;
-          if (!event.data.log) return
+          var data = typeof event.data === "string" ? JSON.parse(event.data) : event.data;
+          if (!data.log) return
           navigator.serviceWorker.ready.then(registration => {
-            navigator.serviceWorker.controller.postMessage(event.data);
+            navigator.serviceWorker.controller.postMessage(data);
           });
         } catch(e) {}
       }
