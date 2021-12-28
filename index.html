@@ -47,10 +47,13 @@
       }
       
       window.onmessage = (event) => {
-        if (!event.data.log) return
-        navigator.serviceWorker.ready.then(registration => {
-          navigator.serviceWorker.controller.postMessage(event.data);
-        });
+        try { 
+          data = typeof event.data === "string" ? JSON.parse(data) : data;
+          if (!event.data.log) return
+          navigator.serviceWorker.ready.then(registration => {
+            navigator.serviceWorker.controller.postMessage(event.data);
+          });
+        } catch(e) {}
       }
     </script>
   </body>
