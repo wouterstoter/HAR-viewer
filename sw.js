@@ -42,7 +42,7 @@ self.onfetch = function(event) {
               response[n] = encoded.charCodeAt(n);
           }
       } else {
-          response = entry.response.content.text
+          response = entry.response.content.text.replaceAll("https://",cb + "https://").replaceAll("http://",cb + "http://")
       }
       event.respondWith(
           new Response(response, {
